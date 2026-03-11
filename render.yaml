@@ -1,0 +1,31 @@
+services:
+  # 后端服务
+  - type: web
+    name: hello-claw-backend
+    env: rust
+    region: oregon
+    plan: free
+    buildCommand: cd backend && cargo build --release
+    startCommand: cd backend && ./target/release/hello_claw_backend
+    envVars:
+      - key: RUST_LOG
+        value: info
+      - key: DATABASE_URL
+        value: sqlite:./data/hello_claw.db
+    disk:
+      name: hello-claw-data
+      mountPath: /opt/render/project/src/backend/data
+      sizeGB: 1
+
+  # 前端静态页面（使用 web 服务托管）
+  - type: web
+    name: hello-claw-frontend
+    env: static
+    region: oregon
+    plan: free
+    buildCommand: echo "No build needed"
+    staticPublishPath: ./frontend
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
