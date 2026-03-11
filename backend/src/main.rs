@@ -122,7 +122,7 @@ async fn main() -> std::io::Result<()> {
 
     let pool_data = web::Data::new(pool);
 
-    println!("🚀 Server starting at http://localhost:8080");
+    println!("🚀 Server starting at http://0.0.0.0:10000");
     println!("📊 API Endpoints:");
     println!("   GET  /api/count     - 获取当前计数");
     println!("   POST /api/increment - 增加计数");
@@ -141,7 +141,7 @@ async fn main() -> std::io::Result<()> {
             .route("/api/increment", web::post().to(increment_count))
             .route("/api/reset", web::post().to(reset_count))
     })
-    .bind("0.0.0.0:8080")?
+    .bind("0.0.0.0:10000")?
     .run()
     .await
 }
