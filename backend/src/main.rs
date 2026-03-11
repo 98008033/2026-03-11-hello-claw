@@ -1,9 +1,10 @@
 use actix_cors::Cors;
 use actix_web::{web, App, HttpResponse, HttpServer};
 use serde::{Deserialize, Serialize};
-use sqlx::{sqlite::SqlitePoolOptions, SqlitePool};
+use sqlx::{sqlite::SqlitePoolOptions, SqlitePool, FromRow};
+use std::path::PathBuf;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, FromRow)]
 struct CountResponse {
     count: i64,
 }
@@ -103,11 +104,15 @@ async fn reset_count(pool: web::Data<SqlitePool>) -> HttpResponse {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    // 初始化数据库
-    let database_url = "sqlite:./hello_claw.db";
+    // 使用当前目录的数据库文件
+    let db_path = PathBuf::from("./hello_claw.db").canonicalize().unwrap_or_else(|_| PathBuf::from("./hello_claw.db"));
+    let database_url = format!("sqlite://{}", db_path.display());
+    
+    println!("📊 Database path: {}", db_path.display());
+
     let pool = SqlitePoolOptions::new()
         .max_connections(5)
-        .connect(database_url)
+        .connect(&database_url)
         .await
         .expect("Failed to create pool");
 

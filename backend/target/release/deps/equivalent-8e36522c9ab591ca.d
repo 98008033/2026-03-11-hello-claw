@@ -1,0 +1,7 @@
+/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/deps/equivalent-8e36522c9ab591ca.d: /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.2/src/lib.rs
+
+/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/deps/libequivalent-8e36522c9ab591ca.rlib: /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.2/src/lib.rs
+
+/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/deps/libequivalent-8e36522c9ab591ca.rmeta: /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.2/src/lib.rs
+
+/home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.2/src/lib.rs:

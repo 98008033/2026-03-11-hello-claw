@@ -1,0 +1,14 @@
+/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/deps/serde-cc26471fb56f841d.d: /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/build/serde-6cbe67ba8a2e7cf4/out/private.rs
+
+/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/deps/libserde-cc26471fb56f841d.rlib: /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/build/serde-6cbe67ba8a2e7cf4/out/private.rs
+
+/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/deps/libserde-cc26471fb56f841d.rmeta: /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs /home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs /home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/build/serde-6cbe67ba8a2e7cf4/out/private.rs
+
+/home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/lib.rs:
+/home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/integer128.rs:
+/home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/mod.rs:
+/home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/de.rs:
+/home/bot/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde-1.0.228/src/private/ser.rs:
+/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/build/serde-6cbe67ba8a2e7cf4/out/private.rs:
+
+# env-dep:OUT_DIR=/home/bot/.openclaw/workspace/repos/2026-03-11-hello-claw/backend/target/release/build/serde-6cbe67ba8a2e7cf4/out
