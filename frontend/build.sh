@@ -3,6 +3,9 @@
 
 set -e
 
+# 进入 frontend 目录
+cd "$(dirname "$0")"
+
 echo "🔧 Building frontend..."
 
 # 如果环境变量存在，替换占位符

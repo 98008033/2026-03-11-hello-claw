@@ -27,7 +27,7 @@ services:
     env: static
     region: oregon
     plan: free
-    buildCommand: cd frontend && chmod +x build.sh && ./build.sh && cp -r * ..
+    buildCommand: cd frontend && ./build.sh && cp -r * ..
     staticPublishPath: .
     envVars:
       - key: VITE_API_URL
