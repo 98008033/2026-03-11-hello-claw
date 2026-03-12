@@ -31,7 +31,7 @@ services:
     staticPublishPath: .
     envVars:
       - key: VITE_API_URL
-        value: https://hello-claw-backend.onrender.com
+        value: https://hello-claw-backend-1.onrender.com
     headers:
       - path: /*
         name: Cache-Control

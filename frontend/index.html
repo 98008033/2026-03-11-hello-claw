@@ -878,7 +878,8 @@
             }
         }
 
-        async function incrementCount() {
+        // 增加计数 - 优化版：立即响应，异步请求
+        function incrementCount() {
             if (isClicking) return;
             isClicking = true;
 
@@ -890,7 +891,7 @@
             timeRemaining = RESET_TIME;
 
             try {
-                const response = await fetch(`${API_BASE}/increment`, {
+                const response = fetch(`${API_BASE}/increment`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ amount: 1 }),
