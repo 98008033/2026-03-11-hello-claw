@@ -909,8 +909,8 @@
             updateComboDisplay();
             
             // 基础粒子效果
-            createParticles(centerX, centerY);
-            createClickGlow(centerX, centerY);
+            if (typeof createParticles === 'function') createParticles(centerX, centerY);
+            if (typeof createClickGlow === 'function') createClickGlow(centerX, centerY);
             
             // 每 10 连击：背景颜色轮换
             if (combo >= 10 && combo % 10 === 0) {
@@ -922,10 +922,10 @@
             // 10+ 连击：增强特效
             if (combo >= 10) {
                 console.log('10+ combo effects');
-                createLargeParticles(centerX, centerY);
-                createRipple(centerX, centerY, false);
-                createSparks(centerX, centerY);
-                createMultiRipples(centerX, centerY);
+                if (typeof createLargeParticles === 'function') createLargeParticles(centerX, centerY);
+                if (typeof createRipple === 'function') createRipple(centerX, centerY, false);
+                if (typeof createSparks === 'function') createSparks(centerX, centerY);
+                if (typeof createMultiRipples === 'function') createMultiRipples(centerX, centerY);
             }
             
             // 50+ 连击：爆炸特效（每次点击都触发）
@@ -935,20 +935,20 @@
                 // triggerScreenShake(); - 禁用屏幕震动
                 // triggerFlash() - 已禁用屏闪
                 // createBackgroundOrbs(); - 禁用背景光球
-                createGridPulse();
+                if (typeof createGridPulse === 'function') createGridPulse();
                 // triggerBgFlash('cyan'); - 禁用背景闪屏
-                createLightningStorm(centerX, centerY);
+                if (typeof createLightningStorm === 'function') createLightningStorm(centerX, centerY);
             }
             
             // 100+ 连击：终极闪电风暴（每次点击都触发）
             if (combo >= 100) {
                 console.log('100+ combo effects - ULTRA LIGHTNING!');
-                createUltraLightningStorm(centerX, centerY);
-                triggerMegaExplosion(centerX, centerY);
+                if (typeof createUltraLightningStorm === 'function') createUltraLightningStorm(centerX, centerY);
+                if (typeof triggerMegaExplosion === 'function') triggerMegaExplosion(centerX, centerY);
                 // triggerFlash() - 已禁用屏闪
                 // triggerBgFlash('white'); - 禁用背景闪屏
-                createRainbowBackground();
-                createShockwaves(centerX, centerY);
+                if (typeof createRainbowBackground === 'function') createRainbowBackground();
+                if (typeof createShockwaves === 'function') createShockwaves(centerX, centerY);
             }
 
             // 异步 API（不阻塞）
