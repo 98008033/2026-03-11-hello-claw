@@ -281,10 +281,17 @@
         }
 
         .claw-button.mega-mode {
-            background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe);
+            /* 保留原始立体渐变，只是增强发光 */
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
             background-size: 200% 200%;
-            animation: gradientShift 0.2s ease infinite;
-            box-shadow: 0 0 100px rgba(255, 107, 107, 1), 0 0 200px rgba(79, 172, 254, 0.8);
+            animation: gradientShift 0.3s ease infinite;
+            /* 超发光效果 - 保留立体感 */
+            box-shadow: 
+                0 10px 40px rgba(255, 107, 107, 0.6),
+                0 0 80px rgba(255, 107, 107, 0.8),
+                0 0 150px rgba(255, 107, 107, 0.6),
+                inset 0 -5px 20px rgba(0,0,0,0.2),
+                inset 0 5px 20px rgba(255,255,255,0.3);
         }
 
         @keyframes gradientShift {
@@ -696,20 +703,21 @@
         .combo.mega-combo {
             background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe);
             background-size: 200% 200%;
-            animation: gradientShift 0.2s ease infinite, comboGlow 0.3s ease infinite;
-            font-size: 4rem;
-            padding: 40px 70px;
-            box-shadow: 0 0 100px rgba(240, 147, 251, 1), 0 0 200px rgba(79, 172, 254, 0.9), 0 0 300px rgba(245, 87, 108, 0.7);
+            animation: gradientShift 0.3s ease infinite, comboGlow 0.4s ease infinite;
+            /* 不放大字体和 padding，只增强发光 */
+            font-size: 2rem;
+            padding: 20px 35px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(240, 147, 251, 1), 0 0 150px rgba(79, 172, 254, 0.9);
         }
 
         @keyframes comboGlow {
             0%, 100% { 
-                box-shadow: 0 0 100px rgba(240, 147, 251, 1), 0 0 200px rgba(79, 172, 254, 0.9);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 80px rgba(240, 147, 251, 1), 0 0 150px rgba(79, 172, 254, 0.9);
                 transform: translateY(0) scale(1);
             }
             50% { 
-                box-shadow: 0 0 150px rgba(240, 147, 251, 1), 0 0 300px rgba(79, 172, 254, 1), 0 0 450px rgba(245, 87, 108, 0.9);
-                transform: translateY(-15px) scale(1.15);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 120px rgba(240, 147, 251, 1), 0 0 200px rgba(79, 172, 254, 1);
+                transform: translateY(0) scale(1);
             }
         }
 
