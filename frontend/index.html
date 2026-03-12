@@ -842,7 +842,7 @@
     <div class="flash-overlay" id="flashOverlay"></div>
 
     <script>
-        const API_BASE = 'http://localhost:10000/api';
+        const API_BASE = 'https://hello-claw-backend-1.onrender.com/api';
         
         let count = 0;
         let combo = 0;
@@ -1057,10 +1057,10 @@
         
         function createParticles(x, y) {
             const emojis = ['✨', '🌟', '⭐', '💫', '🧞', '🪄', '⚡', '💎', '🔥', '🌈'];
-            let particleCount = 60;
-            if (combo >= 100) particleCount = 180;
-            else if (combo >= 50) particleCount = 120;
-            else if (combo >= 10) particleCount = 90;
+            let particleCount = 30;
+            if (combo >= 100) particleCount = 60;
+            else if (combo >= 50) particleCount = 45;
+            else if (combo >= 10) particleCount = 30;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
@@ -1084,7 +1084,7 @@
             }
         }
 
-        function createLightningParticles(x, y, count = 60) {
+        function createLightningParticles(x, y, count = 20) {
             for (let i = 0; i < count; i++) {
                 const lightning = document.createElement('div');
                 lightning.className = 'lightning-particle shoot';
@@ -1105,7 +1105,7 @@
         }
 
         function createSparks(x, y) {
-            const sparkCount = combo >= 100 ? 120 : combo >= 50 ? 80 : 50;
+            const sparkCount = combo >= 100 ? 40 : combo >= 50 ? 25 : 15;
             for (let i = 0; i < sparkCount; i++) {
                 const spark = document.createElement('div');
                 spark.className = 'spark fly';
@@ -1237,9 +1237,9 @@
             createExplosionEffect(x, y);
             setTimeout(() => createExplosionEffect(x, y), 150);
             setTimeout(() => createExplosionEffect(x, y), 300);
-            createStarParticles(x, y, 50);
-            createDiamondParticles(x, y, 40);
-            createHeartParticles(x, y, 30);
+            createStarParticles(x, y, 15);
+            createDiamondParticles(x, y, 12);
+            createHeartParticles(x, y, 10);
         }
 
         // ========== 点击位置光环 ==========
@@ -1386,7 +1386,7 @@
             }
             
             // 闪电粒子 - 100 个
-            createLightningParticles(x, y, 100);
+            createLightningParticles(x, y, 30);
             
             // 背景颜色脉冲
             document.body.classList.add('bg-pulse');
