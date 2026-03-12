@@ -1189,59 +1189,57 @@
 
         function createLargeParticles(x, y) {
             const emojis = ['🎆', '🎇', '💥', '🌈', '⚡', '💎', '🔥', '⭐', '🌟', '💫'];
-            const particleCount = combo >= 100 ? 40 : combo >= 50 ? 24 : 16;
+            const particleCount = combo >= 100 ? 26 : combo >= 50 ? 16 : 10;  // 减少 35%
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle particle-large';
                 particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                
+
                 const angle = (i / particleCount) * Math.PI * 2;
                 const distance = 600 + Math.random() * 400;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
                 const rot = (Math.random() - 0.5) * 720;
-                
+
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
                 particle.style.setProperty('--tx', `${tx}px`);
                 particle.style.setProperty('--ty', `${ty}px`);
                 particle.style.setProperty('--rot', `${rot}deg`);
-                
+
                 document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 2000);
+                setTimeout(() => particle.remove(), 800);
             }
         }
 
         function createExplosionEffect(x, y) {
             const emojis = ['🎆', '🎇', '💥', '🌟', '✨', '🧞', '⚡', '🌈', '🔥', '💫', '💎', '⭐'];
-            const particleCount = combo >= 100 ? 120 : combo >= 50 ? 80 : 50;
+            const particleCount = combo >= 100 ? 78 : combo >= 50 ? 52 : 32;  // 减少 35%
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle particle-explosion';
                 particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                
+
                 const angle = (i / particleCount) * Math.PI * 2;
                 const distance = 700 + Math.random() * 500;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-                
+
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
                 particle.style.setProperty('--tx', `${tx}px`);
                 particle.style.setProperty('--ty', `${ty}px`);
-                
+
                 document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 2000);
+                setTimeout(() => particle.remove(), 900);
             }
         }
 
         function triggerMegaExplosion(x, y) {
-            createExplosionEffect(x, y);
-            setTimeout(() => createExplosionEffect(x, y), 150);
-            setTimeout(() => createExplosionEffect(x, y), 300);
-            createStarParticles(x, y, 15);
-            createDiamondParticles(x, y, 12);
-            createHeartParticles(x, y, 10);
+            createExplosionEffect(x, y);  // 只调用一次，不再延迟调用 3 次
+            createStarParticles(x, y, 9);  // 减少 40%
+            createDiamondParticles(x, y, 7);
+            createHeartParticles(x, y, 6);
         }
 
         // ========== 点击位置光环 ==========
@@ -1388,7 +1386,7 @@
             }
             
             // 闪电粒子 - 100 个
-            createLightningParticles(x, y, 30);
+            createLightningParticles(x, y, 18);  // 减少 40%
             
             // 背景颜色脉冲
             document.body.classList.add('bg-pulse');
@@ -1433,7 +1431,7 @@
             }
             
             // 闪电粒子 - 50 个
-            createLightningParticles(x, y, 50);
+            createLightningParticles(x, y, 30);  // 减少 40%
             
             // 背景颜色脉冲
             document.body.classList.add('bg-pulse');
