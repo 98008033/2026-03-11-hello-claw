@@ -1,31 +1,45 @@
+# Render 多服务架构配置
+# 文档：https://render.com/docs/multi-service-architecture
+
 services:
-  # 后端服务
+  # 后端服务 (Rust + Actix-web)
   - type: web
     name: hello-claw-backend
     env: rust
     region: oregon
     plan: free
-    buildCommand: cd backend && cargo build --release
-    startCommand: cd backend && ./target/release/hello_claw_backend
+    # 使用 cargo install --path 确保正确的 binary 名称
+    buildCommand: cd backend && cargo install --path .
+    startCommand: hello_claw_backend
     envVars:
       - key: RUST_LOG
         value: info
       - key: DATABASE_URL
-        value: sqlite:./data/hello_claw.db
-    disk:
-      name: hello-claw-data
-      mountPath: /opt/render/project/src/backend/data
-      sizeGB: 1
+        fromDatabase:
+          name: hello-claw-db
+          property: connectionString
+      - key: API_URL
+        value: https://hello-claw-backend.onrender.com
 
-  # 前端静态页面（使用 web 服务托管）
+  # 前端静态站点
   - type: web
     name: hello-claw-frontend
     env: static
     region: oregon
     plan: free
-    buildCommand: echo "No build needed"
-    staticPublishPath: ./frontend
+    buildCommand: cd frontend && chmod +x build.sh && ./build.sh && cp -r * ..
+    staticPublishPath: .
+    envVars:
+      - key: VITE_API_URL
+        value: https://hello-claw-backend.onrender.com
     headers:
       - path: /*
         name: Cache-Control
         value: no-cache
+
+databases:
+  - name: hello-claw-db
+    databaseName: hello_claw
+    user: hello_claw_user
+    plan: free
+    region: oregon
