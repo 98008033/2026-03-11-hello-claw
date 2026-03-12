@@ -906,6 +906,7 @@
                 
                 // 先更新 combo，再判断特效
                 combo++;
+                console.log(`Combo: ${combo}`);
                 updateComboDisplay();
                 
                 // 基础粒子效果
@@ -916,10 +917,12 @@
                 if (combo >= 10 && combo % 10 === 0) {
                     const bgHue = (Math.floor(combo / 10) * 36) % 360;
                     document.body.style.background = `linear-gradient(135deg, hsl(${bgHue}, 60%, 50%), hsl(${(bgHue + 40) % 360}, 60%, 50%))`;
+                    console.log(`Background hue: ${bgHue}`);
                 }
                 
                 // 10+ 连击：增强特效
                 if (combo >= 10) {
+                    console.log('10+ combo effects');
                     createLargeParticles(centerX, centerY);
                     createRipple(centerX, centerY, false);
                     createSparks(centerX, centerY);
@@ -928,6 +931,7 @@
                 
                 // 50+ 连击：爆炸特效（每次点击都触发）
                 if (combo >= 50) {
+                    console.log('50+ combo effects - LIGHTNING!');
                     createExplosionEffect(centerX, centerY);
                     triggerScreenShake();
                     triggerFlash();
@@ -939,6 +943,7 @@
                 
                 // 100+ 连击：终极闪电风暴（每次点击都触发）
                 if (combo >= 100) {
+                    console.log('100+ combo effects - ULTRA LIGHTNING!');
                     createUltraLightningStorm(centerX, centerY);
                     triggerMegaExplosion(centerX, centerY);
                     triggerBgFlash('white');
@@ -971,8 +976,9 @@
             // 恢复背景色
             document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
             updateDisplay(false);
-            hideCombo(); // hideCombo 已经重置 combo 和 mega-mode
+            hideCombo();
             updateTimerDisplay();
+            console.log('Reset: combo=0, background restored');
         }
 
         function updateDisplay(animate) {
@@ -1013,8 +1019,8 @@
 
         function hideCombo() {
             comboDisplay.classList.remove('show', 'mega-combo');
-            combo = 0;
             clawButton.classList.remove('mega-mode');
+            // 注意：不清除 combo，combo 只在 resetCount 时清零
         }
 
         function updateTimer() {
