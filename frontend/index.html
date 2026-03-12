@@ -742,28 +742,29 @@
             90% { transform: translate(-30px, -30px); }
         }
 
-        /* 闪光效果 - 超超超明显 */
+        /* 闪光效果 - 局部闪光优化版（GPU 加速） */
         .flash-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(0,217,245,0.9) 40%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            width: 300px;
+            height: 300px;
+            transform: translate(-50%, -50%) scale(0);
+            background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(0,217,245,0.3) 40%, transparent 70%);
             pointer-events: none;
             opacity: 0;
             z-index: 9998;
+            will-change: transform, opacity;
+            transform: translateZ(0);
         }
 
-        /* .flash-overlay.flash { DISABLED for performance */}
-            animation: flashEffect 0.8s ease-out;
+        .flash-overlay.flash {
+            animation: flashEffect 0.2s ease-out;
         }
 
         @keyframes flashEffect {
-            0% { opacity: 1; }
-            30% { opacity: 0.7; }
-            60% { opacity: 1; }
-            100% { opacity: 0; }
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0.4; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
         }
 
         /* 背景颜色脉冲 */
@@ -930,7 +931,7 @@
                 console.log('50+ combo effects - LIGHTNING!');
                 createExplosionEffect(centerX, centerY);
                 triggerScreenShake();
-                // triggerFlash(); // DISABLED for performance
+                triggerFlash(); // 启用局部闪光优化版
                 createBackgroundOrbs();
                 createGridPulse();
                 triggerBgFlash('cyan');
@@ -942,6 +943,7 @@
                 console.log('100+ combo effects - ULTRA LIGHTNING!');
                 createUltraLightningStorm(centerX, centerY);
                 triggerMegaExplosion(centerX, centerY);
+                triggerFlash(); // 启用局部闪光优化版
                 triggerBgFlash('white');
                 createRainbowBackground();
                 createShockwaves(centerX, centerY);
@@ -1405,8 +1407,10 @@
         }
 
         function triggerFlash() {
-            // flashOverlay.classList.add('flash');
-            setTimeout(() => // flashOverlay.classList.remove('flash'), 800);
+            flashOverlay.classList.add('flash');
+            setTimeout(() => {
+                flashOverlay.classList.remove('flash');
+            }, 200);
         }
 
         // 闪电风暴（50 连击版）
