@@ -43,7 +43,7 @@
             border-radius: 6px;
             opacity: 0;
             transform-origin: top center;
-            z-index: 5;
+            z-index: 1000;
         }
 
         .lightning-bolt.strike {
@@ -68,7 +68,7 @@
             border-radius: 3px;
             opacity: 0;
             transform-origin: left center;
-            z-index: 5;
+            z-index: 1000;
         }
 
         .lightning-branch.strike {
@@ -1012,7 +1012,6 @@
             if (comboTimer) clearTimeout(comboTimer);
             comboTimer = setTimeout(() => {
                 hideCombo();
-                combo = 0;
                 clawButton.classList.remove('mega-mode');
             }, 2000);
         }
