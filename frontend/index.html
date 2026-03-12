@@ -755,7 +755,7 @@
             z-index: 9998;
         }
 
-        .flash-overlay.flash {
+        /* .flash-overlay.flash { DISABLED for performance */}
             animation: flashEffect 0.8s ease-out;
         }
 
@@ -930,7 +930,7 @@
                 console.log('50+ combo effects - LIGHTNING!');
                 createExplosionEffect(centerX, centerY);
                 triggerScreenShake();
-                triggerFlash();
+                // triggerFlash(); // DISABLED for performance
                 createBackgroundOrbs();
                 createGridPulse();
                 triggerBgFlash('cyan');
@@ -1405,8 +1405,8 @@
         }
 
         function triggerFlash() {
-            flashOverlay.classList.add('flash');
-            setTimeout(() => flashOverlay.classList.remove('flash'), 800);
+            // flashOverlay.classList.add('flash');
+            setTimeout(() => // flashOverlay.classList.remove('flash'), 800);
         }
 
         // 闪电风暴（50 连击版）
