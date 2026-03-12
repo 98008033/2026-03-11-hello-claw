@@ -904,10 +904,14 @@
                 const centerX = buttonRect.left + buttonRect.width / 2;
                 const centerY = buttonRect.top + buttonRect.height / 2;
                 
+                // 先更新 combo，再判断特效
+                const prevCombo = combo;
+                combo++;
+                updateComboDisplay();
+                
                 // 基础粒子效果
                 createParticles(centerX, centerY);
                 createClickGlow(centerX, centerY);
-                updateCombo();
                 
                 // 10+ 连击：增强特效
                 if (combo >= 10 && combo % 10 === 0) {
@@ -941,7 +945,7 @@
                 updateDisplay(true);
                 const buttonRect = clawButton.getBoundingClientRect();
                 createParticles(buttonRect.left + buttonRect.width / 2, buttonRect.top + buttonRect.height / 2);
-                updateCombo();
+                updateComboDisplay();
             }
 
             setTimeout(() => { isClicking = false; }, 100);
@@ -959,9 +963,8 @@
             timerRunning = false;
             hasStarted = false;
             updateDisplay(false);
-            hideCombo();
+            hideCombo(); // hideCombo 已经重置 combo 和 mega-mode
             updateTimerDisplay();
-            clawButton.classList.remove('mega-mode');
         }
 
         function updateDisplay(animate) {
@@ -972,8 +975,7 @@
             }
         }
 
-        function updateCombo() {
-            combo++;
+        function updateComboDisplay() {
             const isMegaCombo = combo >= 50;
             
             if (combo > 1) {
@@ -1003,6 +1005,8 @@
 
         function hideCombo() {
             comboDisplay.classList.remove('show', 'mega-combo');
+            combo = 0;
+            clawButton.classList.remove('mega-mode');
         }
 
         function updateTimer() {
