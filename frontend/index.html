@@ -19,6 +19,86 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* 背景特效层 */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* 背景闪电 */
+        .lightning {
+            position: absolute;
+            width: 4px;
+            background: linear-gradient(to bottom, #fff, #00d9f5, transparent);
+            box-shadow: 0 0 20px #00d9f5, 0 0 40px #00d9f5, 0 0 60px #00d9f5;
+            border-radius: 2px;
+            opacity: 0;
+            transform-origin: top center;
+        }
+
+        .lightning.strike {
+            animation: lightningStrike 0.3s ease-out;
+        }
+
+        @keyframes lightningStrike {
+            0% { opacity: 1; height: 0; }
+            50% { opacity: 1; height: var(--height); }
+            100% { opacity: 0; height: var(--height); }
+        }
+
+        /* 背景光球 */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(102,126,234,0.4) 50%, transparent 70%);
+            filter: blur(20px);
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .orb.pulse {
+            animation: orbPulse 1s ease-out forwards;
+        }
+
+        @keyframes orbPulse {
+            0% { opacity: 1; transform: scale(0); }
+            50% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(2); }
+        }
+
+        /* 背景网格 */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0;
+        }
+
+        .grid-overlay.active {
+            opacity: 1;
+            animation: gridPulse 0.5s ease;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .container {
@@ -30,6 +110,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
+            z-index: 10;
         }
 
         h1 {
@@ -56,17 +137,6 @@
 
         .count-display.pop {
             transform: scale(1.3);
-        }
-
-        .count-display.mega-pop {
-            animation: megaPop 0.5s ease;
-        }
-
-        @keyframes megaPop {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.5) rotate(-5deg); }
-            50% { transform: scale(1.8) rotate(5deg); }
-            75% { transform: scale(1.3) rotate(-5deg); }
         }
 
         .claw-button {
@@ -205,8 +275,9 @@
         .particle {
             position: absolute;
             pointer-events: none;
-            animation: particleFly 1s ease-out forwards;
+            animation: particleFly 1.2s cubic-bezier(0, 0.3, 0.2, 1) forwards;
             font-size: 1.5rem;
+            z-index: 100;
         }
 
         @keyframes particleFly {
@@ -220,15 +291,67 @@
             }
         }
 
+        /* 闪电粒子 */
+        .lightning-particle {
+            position: absolute;
+            width: 3px;
+            height: 80px;
+            background: linear-gradient(to bottom, #fff, #00d9f5, transparent);
+            box-shadow: 0 0 15px #00d9f5, 0 0 30px #00d9f5;
+            border-radius: 2px;
+            pointer-events: none;
+            opacity: 0;
+            transform-origin: center top;
+            z-index: 99;
+        }
+
+        .lightning-particle.shoot {
+            animation: lightningShoot 0.6s ease-out forwards;
+        }
+
+        @keyframes lightningShoot {
+            0% { opacity: 1; transform: translateY(0) scaleY(0) rotate(var(--rot)); }
+            30% { opacity: 1; transform: translateY(calc(var(--ty) * 0.3)) scaleY(1) rotate(var(--rot)); }
+            100% { opacity: 0; transform: translateY(var(--ty)) scaleY(0.5) rotate(var(--rot)); }
+        }
+
+        /* 火花粒子 */
+        .spark {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #fff, #feca57, transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            box-shadow: 0 0 10px #feca57, 0 0 20px #ff6b6b;
+            opacity: 0;
+            z-index: 98;
+        }
+
+        .spark.fly {
+            animation: sparkFly 0.8s ease-out forwards;
+        }
+
+        @keyframes sparkFly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
         /* 大型粒子 */
         .particle-large {
-            font-size: 3rem;
+            font-size: 4rem;
             z-index: 100;
         }
 
         /* 爆炸粒子 */
         .particle-explosion {
-            font-size: 4rem;
+            font-size: 5rem;
             animation: explosionFly 1.5s ease-out forwards;
         }
 
@@ -248,38 +371,46 @@
         }
 
         /* 波纹效果 */
+        .ripple-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+        }
+
         .ripple {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.6);
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.3);
             transform: scale(0);
-            animation: rippleEffect 0.6s ease-out;
             pointer-events: none;
         }
 
-        @keyframes rippleEffect {
-            to {
-                transform: scale(4);
+        .ripple.animate {
+            animation: rippleExpand 1s ease-out forwards;
+        }
+
+        @keyframes rippleExpand {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+                border-width: 4px;
+            }
+            100% {
+                transform: scale(3);
                 opacity: 0;
+                border-width: 0px;
             }
         }
 
         /* 大型波纹 */
-        .ripple-large {
-            background: rgba(255, 255, 255, 0.3);
-            border: 3px solid rgba(255, 255, 255, 0.8);
-            animation: rippleLargeEffect 1s ease-out;
-        }
-
-        @keyframes rippleLargeEffect {
-            0% {
-                transform: scale(0);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(8);
-                opacity: 0;
-            }
+        .ripple-mega {
+            border: 8px solid rgba(0, 217, 245, 0.9);
+            box-shadow: 0 0 40px rgba(0, 217, 245, 0.8), inset 0 0 40px rgba(0, 217, 245, 0.5);
         }
 
         /* 连击显示 */
@@ -318,32 +449,32 @@
             background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe);
             background-size: 200% 200%;
             animation: gradientShift 0.5s ease infinite, comboGlow 0.3s ease;
-            font-size: 2rem;
-            padding: 20px 35px;
-            box-shadow: 0 0 30px rgba(240, 147, 251, 0.6), 0 0 60px rgba(79, 172, 254, 0.4);
+            font-size: 2.5rem;
+            padding: 25px 45px;
+            box-shadow: 0 0 40px rgba(240, 147, 251, 0.8), 0 0 80px rgba(79, 172, 254, 0.6);
         }
 
         @keyframes comboGlow {
-            0%, 100% { box-shadow: 0 0 30px rgba(240, 147, 251, 0.6); }
-            50% { box-shadow: 0 0 50px rgba(240, 147, 251, 0.9), 0 0 80px rgba(79, 172, 254, 0.6); }
+            0%, 100% { box-shadow: 0 0 40px rgba(240, 147, 251, 0.8); }
+            50% { box-shadow: 0 0 70px rgba(240, 147, 251, 1), 0 0 120px rgba(79, 172, 254, 0.8); }
         }
 
         /* 屏幕震动 */
         .screen-shake {
-            animation: screenShake 0.5s ease;
+            animation: screenShake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97);
         }
 
         @keyframes screenShake {
             0%, 100% { transform: translate(0, 0); }
-            10% { transform: translate(-10px, -10px); }
-            20% { transform: translate(10px, 10px); }
-            30% { transform: translate(-10px, 10px); }
-            40% { transform: translate(10px, -10px); }
-            50% { transform: translate(-10px, -10px); }
-            60% { transform: translate(10px, 10px); }
-            70% { transform: translate(-10px, 10px); }
-            80% { transform: translate(10px, -10px); }
-            90% { transform: translate(-10px, -10px); }
+            10% { transform: translate(-15px, -15px); }
+            20% { transform: translate(15px, 15px); }
+            30% { transform: translate(-15px, 15px); }
+            40% { transform: translate(15px, -15px); }
+            50% { transform: translate(-15px, -15px); }
+            60% { transform: translate(15px, 15px); }
+            70% { transform: translate(-15px, 15px); }
+            80% { transform: translate(15px, -15px); }
+            90% { transform: translate(-15px, -15px); }
         }
 
         /* 闪光效果 */
@@ -353,19 +484,29 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(0,217,245,0.6) 50%, transparent 70%);
             pointer-events: none;
             opacity: 0;
-            z-index: 9999;
+            z-index: 9998;
         }
 
         .flash-overlay.flash {
-            animation: flashEffect 0.5s ease-out;
+            animation: flashEffect 0.6s ease-out;
         }
 
         @keyframes flashEffect {
             0% { opacity: 1; }
             100% { opacity: 0; }
+        }
+
+        /* 背景颜色脉冲 */
+        .bg-pulse {
+            animation: bgPulse 0.5s ease;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { filter: none; }
+            50% { filter: saturate(2) brightness(1.3); }
         }
 
         /* 加载状态 */
@@ -376,6 +517,11 @@
     </style>
 </head>
 <body>
+    <!-- 背景特效层 -->
+    <div class="bg-effects" id="bgEffects"></div>
+    <div class="grid-overlay" id="gridOverlay"></div>
+    <div class="ripple-container" id="rippleContainer"></div>
+    
     <div class="container">
         <h1>🧞 Hello Claw</h1>
         <p class="subtitle">点击神灯，许愿计数！</p>
@@ -392,7 +538,7 @@
             <div class="timer-bar">
                 <div class="timer-progress" id="timerProgress"></div>
             </div>
-            <div class="timer-display" id="timerDisplay">5.0s</div>
+            <div class="timer-display" id="timerDisplay">准备</div>
         </div>
     </div>
 
@@ -409,11 +555,11 @@
         let isClicking = false;
         
         // 倒计时相关
-        const RESET_TIME = 5000; // 5 秒
+        const RESET_TIME = 5000;
         let timeRemaining = RESET_TIME;
         let lastUpdateTime = Date.now();
-        let timerRunning = false; // 第一次点击后才开始计时
-        let hasStarted = false; // 是否已经开始过
+        let timerRunning = false;
+        let hasStarted = false;
 
         const countDisplay = document.getElementById('countDisplay');
         const clawButton = document.getElementById('clawButton');
@@ -421,6 +567,9 @@
         const timerProgress = document.getElementById('timerProgress');
         const timerDisplay = document.getElementById('timerDisplay');
         const flashOverlay = document.getElementById('flashOverlay');
+        const bgEffects = document.getElementById('bgEffects');
+        const gridOverlay = document.getElementById('gridOverlay');
+        const rippleContainer = document.getElementById('rippleContainer');
 
         // 获取当前计数
         async function fetchCount() {
@@ -450,9 +599,7 @@
             try {
                 const response = await fetch(`${API_BASE}/increment`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ amount: 1 }),
                 });
 
@@ -460,39 +607,46 @@
                 count = data.count;
                 updateDisplay(true);
                 
-                // 根据连击数创建不同强度的特效
+                // 基础粒子效果
                 createParticles();
                 updateCombo();
                 
-                // 检查是否达到特殊连击阈值
-                if (combo % 50 === 0 && combo > 0) {
+                // 10+ 连击：增强特效
+                if (combo >= 10 && combo % 10 === 0) {
+                    createLargeParticles();
+                    createRipple(window.innerWidth / 2, window.innerHeight / 2, false);
+                    createSparks();
+                }
+                
+                // 50+ 连击：爆炸特效
+                if (combo >= 50 && combo % 50 === 0) {
                     createExplosionEffect();
                     triggerScreenShake();
                     triggerFlash();
-                } else if (combo % 10 === 0 && combo > 0) {
-                    createLargeParticles();
-                    createLargeRipple();
+                    createBackgroundOrbs();
+                    createGridPulse();
+                }
+                
+                // 100+ 连击：闪电风暴
+                if (combo >= 100 && combo % 100 === 0) {
+                    createLightningStorm();
+                    triggerMegaExplosion();
                 }
             } catch (error) {
                 console.error('Failed to increment:', error);
-                // 本地计数作为后备
                 count++;
                 updateDisplay(true);
                 createParticles();
                 updateCombo();
             }
 
-            setTimeout(() => {
-                isClicking = false;
-            }, 100);
+            setTimeout(() => { isClicking = false; }, 100);
         }
 
-        // 重置计数（倒计时结束自动调用）
+        // 重置计数
         async function resetCount() {
             try {
-                await fetch(`${API_BASE}/reset`, {
-                    method: 'POST',
-                });
+                await fetch(`${API_BASE}/reset`, { method: 'POST' });
             } catch (error) {
                 console.error('Failed to reset:', error);
             }
@@ -510,27 +664,21 @@
         // 更新显示
         function updateDisplay(animate) {
             countDisplay.textContent = count;
-            
             if (animate) {
                 countDisplay.classList.add('pop');
-                setTimeout(() => {
-                    countDisplay.classList.remove('pop');
-                }, 100);
+                setTimeout(() => countDisplay.classList.remove('pop'), 100);
             }
         }
 
         // 更新连击
         function updateCombo() {
             combo++;
-            
-            // 检查是否达到 50 连击
-            const isMegaCombo = combo >= 50 || combo % 50 === 0;
+            const isMegaCombo = combo >= 50;
             
             if (combo > 1) {
                 comboDisplay.textContent = `🔥 Combo x${combo}`;
                 comboDisplay.classList.add('show', 'pop');
                 
-                // 50 连击以上启用 mega 模式
                 if (isMegaCombo) {
                     comboDisplay.classList.add('mega-combo');
                     clawButton.classList.add('mega-mode');
@@ -538,20 +686,13 @@
                     comboDisplay.classList.remove('mega-combo');
                 }
                 
-                setTimeout(() => {
-                    comboDisplay.classList.remove('pop');
-                }, 100);
+                setTimeout(() => comboDisplay.classList.remove('pop'), 100);
             } else {
                 comboDisplay.textContent = `🔥 Combo x${combo}`;
                 comboDisplay.classList.add('show');
             }
 
-            // 清除之前的定时器
-            if (comboTimer) {
-                clearTimeout(comboTimer);
-            }
-
-            // 2 秒后连击消失
+            if (comboTimer) clearTimeout(comboTimer);
             comboTimer = setTimeout(() => {
                 hideCombo();
                 combo = 0;
@@ -559,7 +700,6 @@
             }, 2000);
         }
 
-        // 隐藏连击
         function hideCombo() {
             comboDisplay.classList.remove('show', 'mega-combo');
         }
@@ -572,22 +712,18 @@
             
             if (timerRunning && timeRemaining > 0) {
                 timeRemaining -= delta;
-                
                 if (timeRemaining <= 0) {
                     timeRemaining = 0;
                     resetCount();
                 }
-                
                 updateTimerDisplay();
             } else if (!hasStarted) {
-                // 还没开始，显示初始状态
                 updateTimerDisplay();
             }
             
             requestAnimationFrame(updateTimer);
         }
 
-        // 更新倒计时显示
         function updateTimerDisplay() {
             if (!hasStarted) {
                 timerDisplay.textContent = '准备';
@@ -602,37 +738,34 @@
             const progress = (timeRemaining / RESET_TIME) * 100;
             timerProgress.style.width = `${progress}%`;
             
-            // 根据剩余时间改变颜色
             timerProgress.classList.remove('warning', 'danger');
-            if (seconds <= 1) {
-                timerProgress.classList.add('danger');
-            } else if (seconds <= 2) {
-                timerProgress.classList.add('warning');
-            }
+            if (seconds <= 1) timerProgress.classList.add('danger');
+            else if (seconds <= 2) timerProgress.classList.add('warning');
         }
 
-        // 创建粒子效果
+        // ========== 粒子效果系统 ==========
+        
+        // 基础粒子
         function createParticles() {
-            const emojis = ['✨', '🌟', '⭐', '💫', '🧞', '🪄'];
+            const emojis = ['✨', '🌟', '⭐', '💫', '🧞', '🪄', '⚡'];
             const buttonRect = clawButton.getBoundingClientRect();
             const centerX = buttonRect.left + buttonRect.width / 2;
             const centerY = buttonRect.top + buttonRect.height / 2;
 
-            // 根据连击数增加粒子数量
-            let particleCount = 12;
-            if (combo >= 50) particleCount = 50;
-            else if (combo >= 10) particleCount = 24;
+            let particleCount = 16;
+            if (combo >= 50) particleCount = 60;
+            else if (combo >= 10) particleCount = 32;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
                 
-                const angle = (i / particleCount) * Math.PI * 2;
-                const distance = 150 + Math.random() * 100;
+                const angle = (i / particleCount) * Math.PI * 2 + Math.random() * 0.5;
+                const distance = 250 + Math.random() * 350;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-                const rot = (Math.random() - 0.5) * 720;
+                const rot = (Math.random() - 0.5) * 1080;
                 
                 particle.style.left = `${centerX}px`;
                 particle.style.top = `${centerY}px`;
@@ -641,59 +774,99 @@
                 particle.style.setProperty('--rot', `${rot}deg`);
                 
                 document.body.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 1000);
+                setTimeout(() => particle.remove(), 1200);
             }
         }
 
-        // 创建大型粒子（10 连击）
-        function createLargeParticles() {
-            const emojis = ['🎆', '🎇', '💥', '🌈', '⚡'];
-            const buttonRect = clawButton.getBoundingClientRect();
-            const centerX = buttonRect.left + buttonRect.width / 2;
-            const centerY = buttonRect.top + buttonRect.height / 2;
-
-            for (let i = 0; i < 8; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle particle-large';
-                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        // 闪电粒子
+        function createLightningParticles(centerX, centerY, count = 20) {
+            for (let i = 0; i < count; i++) {
+                const lightning = document.createElement('div');
+                lightning.className = 'lightning-particle';
                 
-                const angle = (i / 8) * Math.PI * 2;
-                const distance = 200 + Math.random() * 150;
-                const tx = Math.cos(angle) * distance;
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 200 + Math.random() * 400;
                 const ty = Math.sin(angle) * distance;
-                const rot = (Math.random() - 0.5) * 720;
+                const rot = (Math.random() - 0.5) * 60;
                 
-                particle.style.left = `${centerX}px`;
-                particle.style.top = `${centerY}px`;
-                particle.style.setProperty('--tx', `${tx}px`);
-                particle.style.setProperty('--ty', `${ty}px`);
-                particle.style.setProperty('--rot', `${rot}deg`);
+                lightning.style.left = `${centerX}px`;
+                lightning.style.top = `${centerY}px`;
+                lightning.style.setProperty('--ty', `${ty}px`);
+                lightning.style.setProperty('--rot', `${rot}deg`);
                 
-                document.body.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 1500);
+                document.body.appendChild(lightning);
+                setTimeout(() => lightning.remove(), 600);
             }
         }
 
-        // 创建爆炸粒子（50 连击）
-        function createExplosionEffect() {
-            const emojis = ['🎆', '🎇', '💥', '🌟', '✨', '🧞', '⚡', '🌈'];
+        // 火花粒子
+        function createSparks() {
             const buttonRect = clawButton.getBoundingClientRect();
             const centerX = buttonRect.left + buttonRect.width / 2;
             const centerY = buttonRect.top + buttonRect.height / 2;
 
             for (let i = 0; i < 30; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'spark fly';
+                
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 300 + Math.random() * 300;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                spark.style.left = `${centerX}px`;
+                spark.style.top = `${centerY}px`;
+                spark.style.setProperty('--tx', `${tx}px`);
+                spark.style.setProperty('--ty', `${ty}px`);
+                
+                document.body.appendChild(spark);
+                setTimeout(() => spark.remove(), 800);
+            }
+        }
+
+        // 大型粒子（10 连击）
+        function createLargeParticles() {
+            const emojis = ['🎆', '🎇', '💥', '🌈', '⚡', '💎'];
+            const buttonRect = clawButton.getBoundingClientRect();
+            const centerX = buttonRect.left + buttonRect.width / 2;
+            const centerY = buttonRect.top + buttonRect.height / 2;
+
+            for (let i = 0; i < 12; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle particle-large';
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                const angle = (i / 12) * Math.PI * 2;
+                const distance = 300 + Math.random() * 200;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const rot = (Math.random() - 0.5) * 720;
+                
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--rot', `${rot}deg`);
+                
+                document.body.appendChild(particle);
+                setTimeout(() => particle.remove(), 1500);
+            }
+        }
+
+        // 爆炸粒子（50 连击）
+        function createExplosionEffect() {
+            const emojis = ['🎆', '🎇', '💥', '🌟', '✨', '🧞', '⚡', '🌈', '🔥'];
+            const buttonRect = clawButton.getBoundingClientRect();
+            const centerX = buttonRect.left + buttonRect.width / 2;
+            const centerY = buttonRect.top + buttonRect.height / 2;
+
+            for (let i = 0; i < 40; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle particle-explosion';
                 particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
                 
-                const angle = (i / 30) * Math.PI * 2;
-                const distance = 300 + Math.random() * 200;
+                const angle = (i / 40) * Math.PI * 2;
+                const distance = 400 + Math.random() * 300;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
                 
@@ -703,79 +876,108 @@
                 particle.style.setProperty('--ty', `${ty}px`);
                 
                 document.body.appendChild(particle);
-
-                setTimeout(() => {
-                    particle.remove();
-                }, 2000);
+                setTimeout(() => particle.remove(), 2000);
             }
         }
 
-        // 创建大型波纹（10 连击）
-        function createLargeRipple() {
-            for (let i = 0; i < 3; i++) {
-                setTimeout(() => {
-                    const ripple = document.createElement('div');
-                    ripple.className = 'ripple ripple-large';
-                    ripple.style.width = '150px';
-                    ripple.style.height = '150px';
-                    ripple.style.left = '50%';
-                    ripple.style.top = '50%';
-                    ripple.style.marginLeft = '-75px';
-                    ripple.style.marginTop = '-75px';
-                    
-                    document.body.appendChild(ripple);
+        // 超级爆炸（100 连击）
+        function triggerMegaExplosion() {
+            createExplosionEffect();
+            setTimeout(() => createExplosionEffect(), 200);
+            setTimeout(() => createExplosionEffect(), 400);
+        }
 
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 1000);
+        // ========== 波纹效果 ==========
+        
+        function createRipple(x, y, isMega = false) {
+            const ripple = document.createElement('div');
+            ripple.className = `ripple ${isMega ? 'ripple-mega' : ''}`;
+            ripple.style.left = `${x - 100}px`;
+            ripple.style.top = `${y - 100}px`;
+            ripple.style.width = '200px';
+            ripple.style.height = '200px';
+            
+            rippleContainer.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.classList.add('animate');
+            }, 10);
+            
+            setTimeout(() => ripple.remove(), 1000);
+        }
+
+        // ========== 背景特效 ==========
+        
+        // 背景光球
+        function createBackgroundOrbs() {
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    const orb = document.createElement('div');
+                    orb.className = 'orb pulse';
+                    orb.style.width = `${100 + Math.random() * 150}px`;
+                    orb.style.height = orb.style.width;
+                    orb.style.left = `${Math.random() * 100}%`;
+                    orb.style.top = `${Math.random() * 100}%`;
+                    
+                    bgEffects.appendChild(orb);
+                    setTimeout(() => orb.remove(), 1000);
                 }, i * 150);
             }
         }
 
-        // 创建波纹效果
-        function createRipple(event) {
-            const ripple = document.createElement('div');
-            ripple.className = 'ripple';
-            ripple.style.width = '100px';
-            ripple.style.height = '100px';
-            ripple.style.left = `${event.clientX - 50}px`;
-            ripple.style.top = `${event.clientY - 50}px`;
-            
-            document.body.appendChild(ripple);
-
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
+        // 网格脉冲
+        function createGridPulse() {
+            gridOverlay.classList.add('active');
+            setTimeout(() => gridOverlay.classList.remove('active'), 500);
         }
 
-        // 触发屏幕震动（50 连击）
+        // 闪电风暴
+        function createLightningStorm() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            // 背景闪电
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const lightning = document.createElement('div');
+                    lightning.className = 'lightning strike';
+                    lightning.style.left = `${Math.random() * width}px`;
+                    lightning.style.top = '0';
+                    lightning.style.height = `${200 + Math.random() * 400}px`;
+                    lightning.style.setProperty('--height', `${200 + Math.random() * 400}px`);
+                    
+                    bgEffects.appendChild(lightning);
+                    setTimeout(() => lightning.remove(), 300);
+                }, i * 100);
+            }
+            
+            // 闪电粒子
+            createLightningParticles(window.innerWidth / 2, window.innerHeight / 2, 40);
+            
+            // 背景颜色脉冲
+            document.body.classList.add('bg-pulse');
+            setTimeout(() => document.body.classList.remove('bg-pulse'), 500);
+        }
+
+        // ========== 屏幕特效 ==========
+        
         function triggerScreenShake() {
             document.body.classList.add('screen-shake');
-            setTimeout(() => {
-                document.body.classList.remove('screen-shake');
-            }, 500);
+            setTimeout(() => document.body.classList.remove('screen-shake'), 500);
         }
 
-        // 触发闪光效果（50 连击）
         function triggerFlash() {
             flashOverlay.classList.add('flash');
-            setTimeout(() => {
-                flashOverlay.classList.remove('flash');
-            }, 500);
+            setTimeout(() => flashOverlay.classList.remove('flash'), 600);
         }
 
         // 事件监听
         clawButton.addEventListener('click', (e) => {
             clawButton.classList.add('clicked');
-            setTimeout(() => {
-                clawButton.classList.remove('clicked');
-            }, 300);
-            
-            createRipple(e);
+            setTimeout(() => clawButton.classList.remove('clicked'), 300);
             incrementCount();
         });
 
-        // 支持键盘空格键
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
                 e.preventDefault();
@@ -785,8 +987,8 @@
 
         // 初始化
         fetchCount();
-        updateTimerDisplay(); // 显示初始状态
-        updateTimer(); // 启动计时器循环
+        updateTimerDisplay();
+        updateTimer();
     </script>
 </body>
 </html>
