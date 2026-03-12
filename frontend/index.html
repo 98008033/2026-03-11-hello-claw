@@ -932,11 +932,11 @@
             if (combo >= 50) {
                 console.log('50+ combo effects - LIGHTNING!');
                 createExplosionEffect(centerX, centerY);
-                triggerScreenShake();
+                // triggerScreenShake(); - 禁用屏幕震动
                 // triggerFlash() - 已禁用屏闪
-                createBackgroundOrbs();
+                // createBackgroundOrbs(); - 禁用背景光球
                 createGridPulse();
-                triggerBgFlash('cyan');
+                // triggerBgFlash('cyan'); - 禁用背景闪屏
                 createLightningStorm(centerX, centerY);
             }
             
@@ -946,7 +946,7 @@
                 createUltraLightningStorm(centerX, centerY);
                 triggerMegaExplosion(centerX, centerY);
                 // triggerFlash() - 已禁用屏闪
-                triggerBgFlash('white');
+                // triggerBgFlash('white'); - 禁用背景闪屏
                 createRainbowBackground();
                 createShockwaves(centerX, centerY);
             }
