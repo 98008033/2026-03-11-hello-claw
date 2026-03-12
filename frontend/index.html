@@ -878,7 +878,7 @@
             }
         }
 
-        // 增加计数 - 优化版：立即响应，异步请求
+        // 增加计数 - 修复版：立即本地更新 + 异步 API 同步
         function incrementCount() {
             if (isClicking) return;
             isClicking = true;
@@ -890,75 +890,67 @@
             }
             timeRemaining = RESET_TIME;
 
-            try {
-                const response = fetch(`${API_BASE}/increment`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount: 1 }),
-                });
-
-                const data = await response.json();
-                count = data.count;
-                updateDisplay(true);
-                
-                const buttonRect = clawButton.getBoundingClientRect();
-                const centerX = buttonRect.left + buttonRect.width / 2;
-                const centerY = buttonRect.top + buttonRect.height / 2;
-                
-                // 先更新 combo，再判断特效
-                combo++;
-                console.log(`Combo: ${combo}`);
-                updateComboDisplay();
-                
-                // 基础粒子效果
-                createParticles(centerX, centerY);
-                createClickGlow(centerX, centerY);
-                
-                // 每 10 连击：背景颜色轮换
-                if (combo >= 10 && combo % 10 === 0) {
-                    const bgHue = (Math.floor(combo / 10) * 36) % 360;
-                    document.body.style.background = `linear-gradient(135deg, hsl(${bgHue}, 60%, 50%), hsl(${(bgHue + 40) % 360}, 60%, 50%))`;
-                    console.log(`Background hue: ${bgHue}`);
-                }
-                
-                // 10+ 连击：增强特效
-                if (combo >= 10) {
-                    console.log('10+ combo effects');
-                    createLargeParticles(centerX, centerY);
-                    createRipple(centerX, centerY, false);
-                    createSparks(centerX, centerY);
-                    createMultiRipples(centerX, centerY);
-                }
-                
-                // 50+ 连击：爆炸特效（每次点击都触发）
-                if (combo >= 50) {
-                    console.log('50+ combo effects - LIGHTNING!');
-                    createExplosionEffect(centerX, centerY);
-                    triggerScreenShake();
-                    triggerFlash();
-                    createBackgroundOrbs();
-                    createGridPulse();
-                    triggerBgFlash('cyan');
-                    createLightningStorm(centerX, centerY);
-                }
-                
-                // 100+ 连击：终极闪电风暴（每次点击都触发）
-                if (combo >= 100) {
-                    console.log('100+ combo effects - ULTRA LIGHTNING!');
-                    createUltraLightningStorm(centerX, centerY);
-                    triggerMegaExplosion(centerX, centerY);
-                    triggerBgFlash('white');
-                    createRainbowBackground();
-                    createShockwaves(centerX, centerY);
-                }
-            } catch (error) {
-                console.error('Failed to increment:', error);
-                count++;
-                updateDisplay(true);
-                const buttonRect = clawButton.getBoundingClientRect();
-                createParticles(buttonRect.left + buttonRect.width / 2, buttonRect.top + buttonRect.height / 2);
-                updateComboDisplay();
+            // 立即本地更新
+            count++;
+            updateDisplay(true);
+            
+            const buttonRect = clawButton.getBoundingClientRect();
+            const centerX = buttonRect.left + buttonRect.width / 2;
+            const centerY = buttonRect.top + buttonRect.height / 2;
+            
+            // 先更新 combo，再判断特效
+            combo++;
+            console.log(`Combo: ${combo}`);
+            updateComboDisplay();
+            
+            // 基础粒子效果
+            createParticles(centerX, centerY);
+            createClickGlow(centerX, centerY);
+            
+            // 每 10 连击：背景颜色轮换
+            if (combo >= 10 && combo % 10 === 0) {
+                const bgHue = (Math.floor(combo / 10) * 36) % 360;
+                document.body.style.background = `linear-gradient(135deg, hsl(${bgHue}, 60%, 50%), hsl(${(bgHue + 40) % 360}, 60%, 50%))`;
+                console.log(`Background hue: ${bgHue}`);
             }
+            
+            // 10+ 连击：增强特效
+            if (combo >= 10) {
+                console.log('10+ combo effects');
+                createLargeParticles(centerX, centerY);
+                createRipple(centerX, centerY, false);
+                createSparks(centerX, centerY);
+                createMultiRipples(centerX, centerY);
+            }
+            
+            // 50+ 连击：爆炸特效（每次点击都触发）
+            if (combo >= 50) {
+                console.log('50+ combo effects - LIGHTNING!');
+                createExplosionEffect(centerX, centerY);
+                triggerScreenShake();
+                triggerFlash();
+                createBackgroundOrbs();
+                createGridPulse();
+                triggerBgFlash('cyan');
+                createLightningStorm(centerX, centerY);
+            }
+            
+            // 100+ 连击：终极闪电风暴（每次点击都触发）
+            if (combo >= 100) {
+                console.log('100+ combo effects - ULTRA LIGHTNING!');
+                createUltraLightningStorm(centerX, centerY);
+                triggerMegaExplosion(centerX, centerY);
+                triggerBgFlash('white');
+                createRainbowBackground();
+                createShockwaves(centerX, centerY);
+            }
+
+            // 异步 API（不阻塞）
+            fetch(`${API_BASE}/increment`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ amount: 1 }),
+            }).catch(err => console.log(err));
 
             setTimeout(() => { isClicking = false; }, 100);
         }
