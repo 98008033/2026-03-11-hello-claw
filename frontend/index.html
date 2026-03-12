@@ -417,8 +417,8 @@
         /* 闪电粒子 - 超超超明显 */
         .lightning-particle {
             position: absolute;
-            width: 5px;
-            height: 90px;
+            width: 2.5px;
+            height: 45px;
             background: linear-gradient(to bottom, #fff 0%, #00d9f5 30%, #0099cc 70%, transparent 100%);
             box-shadow: 0 0 30px #00d9f5, 0 0 60px #00d9f5, 0 0 90px #00d9f5, 0 0 120px #00d9f5, 0 0 150px #00d9f5;
             border-radius: 5px;
@@ -452,8 +452,8 @@
         /* 火花粒子 */
         .spark {
             position: absolute;
-            width: 7px;
-            height: 7px;
+            width: 3.5px;
+            height: 3.5px;
             background: radial-gradient(circle, #fff 0%, #feca57 40%, transparent 80%);
             border-radius: 50%;
             pointer-events: none;
@@ -484,8 +484,8 @@
         /* 星星粒子 */
         .star-particle {
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 7.5px;
+            height: 7.5px;
             background: radial-gradient(circle, #fff, #feca57);
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             box-shadow: 0 0 40px #feca57, 0 0 80px #feca57;
@@ -512,8 +512,8 @@
         /* 钻石粒子 */
         .diamond-particle {
             position: absolute;
-            width: 12.5px;
-            height: 12.5px;
+            width: 6.25px;
+            height: 6.25px;
             background: linear-gradient(135deg, #00d9f5, #00ff88, #00d9f5);
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
             box-shadow: 0 0 30px #00d9f5, 0 0 60px #00ff88;
@@ -540,8 +540,8 @@
         /* 爱心粒子 */
         .heart-particle {
             position: absolute;
-            width: 15px;
-            height: 15px;
+            width: 7.5px;
+            height: 7.5px;
             background: radial-gradient(circle, #ff6b6b, #ff0040);
             clip-path: polygon(50% 100%, 100% 50%, 100% 0%, 50% 25%, 0% 0%, 0% 50%);
             box-shadow: 0 0 30px #ff6b6b, 0 0 60px #ff0040;
@@ -574,7 +574,7 @@
 
         /* 爆炸粒子 */
         .particle-explosion {
-            font-size: 5rem;
+            font-size: 2.5rem;
             animation: explosionFly 0.9s ease-out forwards;
             filter: drop-shadow(0 0 40px currentColor);
             will-change: transform, opacity;
@@ -610,7 +610,7 @@
         .ripple {
             position: absolute;
             border-radius: 50%;
-            border: 4px solid rgba(255, 255, 255, 1);
+            border: 2px solid rgba(255, 255, 255, 1);
             box-shadow: 0 0 40px rgba(255, 255, 255, 1), inset 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.6);
             transform: scale(0);
             pointer-events: none;
@@ -624,11 +624,11 @@
             0% {
                 transform: scale(0);
                 opacity: 1;
-                border-width: 4px;
+                border-width: 2px;
             }
             50% {
                 opacity: 0.7;
-                border-width: 2.5px;
+                border-width: 1.25px;
             }
             100% {
                 transform: scale(5);
@@ -639,7 +639,7 @@
 
         /* 大型波纹 */
         .ripple-mega {
-            border: 6px solid rgba(0, 217, 245, 1);
+            border: 3px solid rgba(0, 217, 245, 1);
             box-shadow: 0 0 80px rgba(0, 217, 245, 1), inset 0 0 80px rgba(0, 217, 245, 0.8), 0 0 160px rgba(0, 217, 245, 0.6);
         }
 
@@ -758,6 +758,7 @@
             transform: translateZ(0);
         }
 
+        /* 屏闪已禁用
         .flash-overlay.flash {
             animation: flashEffect 0.2s ease-out;
         }
@@ -766,6 +767,7 @@
             0% { transform: translate(-50%, -50%) scale(0); opacity: 0.4; }
             100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
         }
+        */
 
         /* 背景颜色脉冲 */
         .bg-pulse {
@@ -842,7 +844,7 @@
     </div>
 
     <div class="combo" id="combo">🔥 Combo x1</div>
-    <div class="flash-overlay" id="flashOverlay"></div>
+    <!-- <div class="flash-overlay" id="flashOverlay"></div> 屏闪已禁用 -->
 
     <script>
         const API_BASE = 'https://hello-claw-backend-1.onrender.com/api';
@@ -863,7 +865,7 @@
         const comboDisplay = document.getElementById('combo');
         const timerProgress = document.getElementById('timerProgress');
         const timerDisplay = document.getElementById('timerDisplay');
-        const flashOverlay = document.getElementById('flashOverlay');
+        // const flashOverlay = document.getElementById('flashOverlay'); 屏闪已禁用
         const bgEffects = document.getElementById('bgEffects');
         const gridOverlay = document.getElementById('gridOverlay');
         const bgOverlay = document.getElementById('bgOverlay');
@@ -931,7 +933,7 @@
                 console.log('50+ combo effects - LIGHTNING!');
                 createExplosionEffect(centerX, centerY);
                 triggerScreenShake();
-                triggerFlash(); // 启用局部闪光优化版
+                // triggerFlash() - 已禁用屏闪
                 createBackgroundOrbs();
                 createGridPulse();
                 triggerBgFlash('cyan');
@@ -943,7 +945,7 @@
                 console.log('100+ combo effects - ULTRA LIGHTNING!');
                 createUltraLightningStorm(centerX, centerY);
                 triggerMegaExplosion(centerX, centerY);
-                triggerFlash(); // 启用局部闪光优化版
+                // triggerFlash() - 已禁用屏闪
                 triggerBgFlash('white');
                 createRainbowBackground();
                 createShockwaves(centerX, centerY);
@@ -1299,7 +1301,7 @@
                 setTimeout(() => {
                     const orb = document.createElement('div');
                     orb.className = 'orb pulse';
-                    orb.style.width = `${100 + Math.random() * 150}px`;
+                    orb.style.width = `${50 + Math.random() * 75}px`;  // 缩小 50%
                     orb.style.height = orb.style.width;
                     orb.style.left = `${Math.random() * 100}%`;
                     orb.style.top = `${Math.random() * 100}%`;
@@ -1332,10 +1334,10 @@
                 setTimeout(() => {
                     const shockwave = document.createElement('div');
                     shockwave.className = 'shockwave expand';
-                    shockwave.style.width = '100px';
-                    shockwave.style.height = '100px';
-                    shockwave.style.left = `${x - 50}px`;
-                    shockwave.style.top = `${y - 50}px`;
+                    shockwave.style.width = '50px';  // 缩小 50%
+                    shockwave.style.height = '50px';  // 缩小 50%
+                    shockwave.style.left = `${x - 25}px`;
+                    shockwave.style.top = `${y - 25}px`;
                     
                     bgEffects.appendChild(shockwave);
                     setTimeout(() => shockwave.remove(), 1000);
@@ -1349,8 +1351,8 @@
             const width = window.innerWidth;
             const height = window.innerHeight;
             
-            // 主闪电 - 20 道
-            for (let i = 0; i < 20; i++) {
+            // 主闪电 - 10 道（缩小 50%）
+            for (let i = 0; i < 10; i++) {
                 setTimeout(() => {
                     const lightning = document.createElement('div');
                     lightning.className = 'lightning-bolt strike';
@@ -1387,8 +1389,8 @@
                 }, i * 60);
             }
             
-            // 闪电粒子 - 100 个
-            createLightningParticles(x, y, 18);  // 减少 40%
+            // 闪电粒子 - 50 个（缩小 50%）
+            createLightningParticles(x, y, 9);
             
             // 背景颜色脉冲
             document.body.classList.add('bg-pulse');
@@ -1406,20 +1408,21 @@
             setTimeout(() => document.body.classList.remove('screen-shake'), 800);
         }
 
-        function triggerFlash() {
-            flashOverlay.classList.add('flash');
-            setTimeout(() => {
-                flashOverlay.classList.remove('flash');
-            }, 200);
-        }
+        // 屏闪已禁用
+        // function triggerFlash() {
+        //     flashOverlay.classList.add('flash');
+        //     setTimeout(() => {
+        //         flashOverlay.classList.remove('flash');
+        //     }, 200);
+        // }
 
         // 闪电风暴（50 连击版）
         function createLightningStorm(x, y) {
             const width = window.innerWidth;
             const height = window.innerHeight;
             
-            // 主闪电 - 10 道
-            for (let i = 0; i < 10; i++) {
+            // 主闪电 - 5 道（缩小 50%）
+            for (let i = 0; i < 5; i++) {
                 setTimeout(() => {
                     const lightning = document.createElement('div');
                     lightning.className = 'lightning-bolt strike';
@@ -1434,8 +1437,8 @@
                 }, i * 80);
             }
             
-            // 闪电粒子 - 50 个
-            createLightningParticles(x, y, 30);  // 减少 40%
+            // 闪电粒子 - 25 个（缩小 50%）
+            createLightningParticles(x, y, 15);
             
             // 背景颜色脉冲
             document.body.classList.add('bg-pulse');
