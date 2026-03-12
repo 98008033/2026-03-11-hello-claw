@@ -412,7 +412,8 @@
         const RESET_TIME = 5000; // 5 秒
         let timeRemaining = RESET_TIME;
         let lastUpdateTime = Date.now();
-        let timerRunning = true;
+        let timerRunning = false; // 第一次点击后才开始计时
+        let hasStarted = false; // 是否已经开始过
 
         const countDisplay = document.getElementById('countDisplay');
         const clawButton = document.getElementById('clawButton');
@@ -437,6 +438,14 @@
         async function incrementCount() {
             if (isClicking) return;
             isClicking = true;
+
+            // 每次点击都重置倒计时
+            if (!hasStarted) {
+                hasStarted = true;
+                timerRunning = true;
+                lastUpdateTime = Date.now();
+            }
+            timeRemaining = RESET_TIME;
 
             try {
                 const response = await fetch(`${API_BASE}/increment`, {
@@ -490,6 +499,8 @@
             count = 0;
             combo = 0;
             timeRemaining = RESET_TIME;
+            timerRunning = false;
+            hasStarted = false;
             updateDisplay(false);
             hideCombo();
             updateTimerDisplay();
@@ -568,6 +579,9 @@
                 }
                 
                 updateTimerDisplay();
+            } else if (!hasStarted) {
+                // 还没开始，显示初始状态
+                updateTimerDisplay();
             }
             
             requestAnimationFrame(updateTimer);
@@ -575,6 +589,13 @@
 
         // 更新倒计时显示
         function updateTimerDisplay() {
+            if (!hasStarted) {
+                timerDisplay.textContent = '准备';
+                timerProgress.style.width = '0%';
+                timerProgress.classList.remove('warning', 'danger');
+                return;
+            }
+            
             const seconds = timeRemaining / 1000;
             timerDisplay.textContent = `${seconds.toFixed(1)}s`;
             
@@ -764,8 +785,8 @@
 
         // 初始化
         fetchCount();
-        lastUpdateTime = Date.now();
-        updateTimer();
+        updateTimerDisplay(); // 显示初始状态
+        updateTimer(); // 启动计时器循环
     </script>
 </body>
 </html>
