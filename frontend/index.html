@@ -396,10 +396,11 @@
         .particle {
             position: absolute;
             pointer-events: none;
-            animation: particleFly 1.8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
-            font-size: 2.5rem;
+            animation: particleFly 0.8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+            font-size: 1.25rem;
             z-index: 100;
             filter: drop-shadow(0 0 15px currentColor);
+            will-change: transform, opacity;
         }
 
         @keyframes particleFly {
@@ -416,8 +417,8 @@
         /* 闪电粒子 - 超超超明显 */
         .lightning-particle {
             position: absolute;
-            width: 10px;
-            height: 180px;
+            width: 5px;
+            height: 90px;
             background: linear-gradient(to bottom, #fff 0%, #00d9f5 30%, #0099cc 70%, transparent 100%);
             box-shadow: 0 0 30px #00d9f5, 0 0 60px #00d9f5, 0 0 90px #00d9f5, 0 0 120px #00d9f5, 0 0 150px #00d9f5;
             border-radius: 5px;
@@ -451,8 +452,8 @@
         /* 火花粒子 */
         .spark {
             position: absolute;
-            width: 14px;
-            height: 14px;
+            width: 7px;
+            height: 7px;
             background: radial-gradient(circle, #fff 0%, #feca57 40%, transparent 80%);
             border-radius: 50%;
             pointer-events: none;
@@ -483,8 +484,8 @@
         /* 星星粒子 */
         .star-particle {
             position: absolute;
-            width: 30px;
-            height: 30px;
+            width: 15px;
+            height: 15px;
             background: radial-gradient(circle, #fff, #feca57);
             clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
             box-shadow: 0 0 40px #feca57, 0 0 80px #feca57;
@@ -511,8 +512,8 @@
         /* 钻石粒子 */
         .diamond-particle {
             position: absolute;
-            width: 25px;
-            height: 25px;
+            width: 12.5px;
+            height: 12.5px;
             background: linear-gradient(135deg, #00d9f5, #00ff88, #00d9f5);
             clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
             box-shadow: 0 0 30px #00d9f5, 0 0 60px #00ff88;
@@ -539,8 +540,8 @@
         /* 爱心粒子 */
         .heart-particle {
             position: absolute;
-            width: 30px;
-            height: 30px;
+            width: 15px;
+            height: 15px;
             background: radial-gradient(circle, #ff6b6b, #ff0040);
             clip-path: polygon(50% 100%, 100% 50%, 100% 0%, 50% 25%, 0% 0%, 0% 50%);
             box-shadow: 0 0 30px #ff6b6b, 0 0 60px #ff0040;
@@ -566,16 +567,17 @@
 
         /* 大型粒子 */
         .particle-large {
-            font-size: 8rem;
+            font-size: 4rem;
             z-index: 100;
             filter: drop-shadow(0 0 30px currentColor);
         }
 
         /* 爆炸粒子 */
         .particle-explosion {
-            font-size: 10rem;
-            animation: explosionFly 2s ease-out forwards;
+            font-size: 5rem;
+            animation: explosionFly 0.9s ease-out forwards;
             filter: drop-shadow(0 0 40px currentColor);
+            will-change: transform, opacity;
         }
 
         @keyframes explosionFly {
@@ -608,7 +610,7 @@
         .ripple {
             position: absolute;
             border-radius: 50%;
-            border: 8px solid rgba(255, 255, 255, 1);
+            border: 4px solid rgba(255, 255, 255, 1);
             box-shadow: 0 0 40px rgba(255, 255, 255, 1), inset 0 0 40px rgba(255, 255, 255, 0.8), 0 0 80px rgba(255, 255, 255, 0.6);
             transform: scale(0);
             pointer-events: none;
@@ -622,11 +624,11 @@
             0% {
                 transform: scale(0);
                 opacity: 1;
-                border-width: 8px;
+                border-width: 4px;
             }
             50% {
                 opacity: 0.7;
-                border-width: 5px;
+                border-width: 2.5px;
             }
             100% {
                 transform: scale(5);
@@ -637,7 +639,7 @@
 
         /* 大型波纹 */
         .ripple-mega {
-            border: 12px solid rgba(0, 217, 245, 1);
+            border: 6px solid rgba(0, 217, 245, 1);
             box-shadow: 0 0 80px rgba(0, 217, 245, 1), inset 0 0 80px rgba(0, 217, 245, 0.8), 0 0 160px rgba(0, 217, 245, 0.6);
         }
 
@@ -645,7 +647,7 @@
         .ripple-multi {
             position: absolute;
             border-radius: 50%;
-            border: 6px solid rgba(255, 107, 107, 0.95);
+            border: 3px solid rgba(255, 107, 107, 0.95);
             box-shadow: 0 0 50px rgba(255, 107, 107, 0.9);
             transform: scale(0);
             pointer-events: none;
@@ -777,8 +779,8 @@
         /* 点击位置光环 */
         .click-glow {
             position: fixed;
-            width: 150px;
-            height: 150px;
+            width: 75px;
+            height: 75px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,107,107,0.9) 40%, transparent 70%);
             box-shadow: 0 0 80px rgba(255,107,107,1), 0 0 160px rgba(255,107,107,0.7);
@@ -1057,129 +1059,129 @@
         
         function createParticles(x, y) {
             const emojis = ['✨', '🌟', '⭐', '💫', '🧞', '🪄', '⚡', '💎', '🔥', '🌈'];
-            let particleCount = 30;
-            if (combo >= 100) particleCount = 60;
-            else if (combo >= 50) particleCount = 45;
-            else if (combo >= 10) particleCount = 30;
+            let particleCount = 18;  // 减少 40%
+            if (combo >= 100) particleCount = 39;
+            else if (combo >= 50) particleCount = 29;
+            else if (combo >= 10) particleCount = 20;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                
+
                 const angle = (i / particleCount) * Math.PI * 2 + Math.random() * 1.2;
                 const distance = 600 + Math.random() * 700;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
                 const rot = (Math.random() - 0.5) * 2160;
-                
+
                 particle.style.left = `${x}px`;
                 particle.style.top = `${y}px`;
                 particle.style.setProperty('--tx', `${tx}px`);
                 particle.style.setProperty('--ty', `${ty}px`);
                 particle.style.setProperty('--rot', `${rot}deg`);
-                
+
                 document.body.appendChild(particle);
-                setTimeout(() => particle.remove(), 1800);
+                setTimeout(() => particle.remove(), 800);
             }
         }
 
-        function createLightningParticles(x, y, count = 20) {
+        function createLightningParticles(x, y, count = 12) {  // 减少 40%
             for (let i = 0; i < count; i++) {
                 const lightning = document.createElement('div');
                 lightning.className = 'lightning-particle shoot';
-                
+
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 400 + Math.random() * 600;
                 const ty = Math.sin(angle) * distance;
                 const rot = (Math.random() - 0.5) * 120;
-                
+
                 lightning.style.left = `${x}px`;
                 lightning.style.top = `${y}px`;
                 lightning.style.setProperty('--ty', `${ty}px`);
                 lightning.style.setProperty('--rot', `${rot}deg`);
-                
+
                 document.body.appendChild(lightning);
                 setTimeout(() => lightning.remove(), 1000);
             }
         }
 
         function createSparks(x, y) {
-            const sparkCount = combo >= 100 ? 40 : combo >= 50 ? 25 : 15;
+            const sparkCount = combo >= 100 ? 26 : combo >= 50 ? 16 : 10;  // 减少 35%
             for (let i = 0; i < sparkCount; i++) {
                 const spark = document.createElement('div');
                 spark.className = 'spark fly';
-                
+
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 500 + Math.random() * 500;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-                
+
                 spark.style.left = `${x}px`;
                 spark.style.top = `${y}px`;
                 spark.style.setProperty('--tx', `${tx}px`);
                 spark.style.setProperty('--ty', `${ty}px`);
-                
+
                 document.body.appendChild(spark);
                 setTimeout(() => spark.remove(), 1200);
             }
         }
 
-        function createStarParticles(x, y, count = 40) {
+        function createStarParticles(x, y, count = 24) {  // 减少 40%
             for (let i = 0; i < count; i++) {
                 const star = document.createElement('div');
                 star.className = 'star-particle shoot';
-                
+
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 450 + Math.random() * 450;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-                
+
                 star.style.left = `${x}px`;
                 star.style.top = `${y}px`;
                 star.style.setProperty('--tx', `${tx}px`);
                 star.style.setProperty('--ty', `${ty}px`);
-                
+
                 document.body.appendChild(star);
                 setTimeout(() => star.remove(), 1500);
             }
         }
 
-        function createDiamondParticles(x, y, count = 30) {
+        function createDiamondParticles(x, y, count = 18) {  // 减少 40%
             for (let i = 0; i < count; i++) {
                 const diamond = document.createElement('div');
                 diamond.className = 'diamond-particle shoot';
-                
+
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 400 + Math.random() * 400;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-                
+
                 diamond.style.left = `${x}px`;
                 diamond.style.top = `${y}px`;
                 diamond.style.setProperty('--tx', `${tx}px`);
                 diamond.style.setProperty('--ty', `${ty}px`);
-                
+
                 document.body.appendChild(diamond);
                 setTimeout(() => diamond.remove(), 1300);
             }
         }
 
-        function createHeartParticles(x, y, count = 25) {
+        function createHeartParticles(x, y, count = 15) {  // 减少 40%
             for (let i = 0; i < count; i++) {
                 const heart = document.createElement('div');
                 heart.className = 'heart-particle shoot';
-                
+
                 const angle = Math.random() * Math.PI * 2;
                 const distance = 350 + Math.random() * 350;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
-                
+
                 heart.style.left = `${x}px`;
                 heart.style.top = `${y}px`;
                 heart.style.setProperty('--tx', `${tx}px`);
                 heart.style.setProperty('--ty', `${ty}px`);
-                
+
                 document.body.appendChild(heart);
                 setTimeout(() => heart.remove(), 1400);
             }
@@ -1259,10 +1261,10 @@
         function createRipple(x, y, isMega = false) {
             const ripple = document.createElement('div');
             ripple.className = `ripple ${isMega ? 'ripple-mega' : ''}`;
-            ripple.style.left = `${x - 100}px`;
-            ripple.style.top = `${y - 100}px`;
-            ripple.style.width = '200px';
-            ripple.style.height = '200px';
+            ripple.style.left = `${x - 50}px`;
+            ripple.style.top = `${y - 50}px`;
+            ripple.style.width = '100px';
+            ripple.style.height = '100px';
             
             rippleContainer.appendChild(ripple);
             
@@ -1278,10 +1280,10 @@
                 setTimeout(() => {
                     const ripple = document.createElement('div');
                     ripple.className = 'ripple-multi animate';
-                    ripple.style.left = `${x - 80}px`;
-                    ripple.style.top = `${y - 80}px`;
-                    ripple.style.width = '160px';
-                    ripple.style.height = '160px';
+                    ripple.style.left = `${x - 40}px`;
+                    ripple.style.top = `${y - 40}px`;
+                    ripple.style.width = '80px';
+                    ripple.style.height = '80px';
                     
                     rippleContainer.appendChild(ripple);
                     setTimeout(() => ripple.remove(), 1200);
@@ -1297,7 +1299,7 @@
                 setTimeout(() => {
                     const orb = document.createElement('div');
                     orb.className = 'orb pulse';
-                    orb.style.width = `${200 + Math.random() * 300}px`;
+                    orb.style.width = `${100 + Math.random() * 150}px`;
                     orb.style.height = orb.style.width;
                     orb.style.left = `${Math.random() * 100}%`;
                     orb.style.top = `${Math.random() * 100}%`;
@@ -1330,10 +1332,10 @@
                 setTimeout(() => {
                     const shockwave = document.createElement('div');
                     shockwave.className = 'shockwave expand';
-                    shockwave.style.width = '200px';
-                    shockwave.style.height = '200px';
-                    shockwave.style.left = `${x - 100}px`;
-                    shockwave.style.top = `${y - 100}px`;
+                    shockwave.style.width = '100px';
+                    shockwave.style.height = '100px';
+                    shockwave.style.left = `${x - 50}px`;
+                    shockwave.style.top = `${y - 50}px`;
                     
                     bgEffects.appendChild(shockwave);
                     setTimeout(() => shockwave.remove(), 1000);
