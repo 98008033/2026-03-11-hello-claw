@@ -29,6 +29,7 @@
             padding: 60px 80px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
         }
 
         h1 {
@@ -41,7 +42,7 @@
         .subtitle {
             color: rgba(255, 255, 255, 0.8);
             font-size: 1.2rem;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .count-display {
@@ -49,12 +50,23 @@
             font-weight: bold;
             color: #fff;
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-            margin: 30px 0;
+            margin: 20px 0;
             transition: transform 0.1s ease;
         }
 
         .count-display.pop {
             transform: scale(1.3);
+        }
+
+        .count-display.mega-pop {
+            animation: megaPop 0.5s ease;
+        }
+
+        @keyframes megaPop {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.5) rotate(-5deg); }
+            50% { transform: scale(1.8) rotate(5deg); }
+            75% { transform: scale(1.3) rotate(-5deg); }
         }
 
         .claw-button {
@@ -89,6 +101,18 @@
             animation: buttonShake 0.3s ease;
         }
 
+        .claw-button.mega-mode {
+            background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe);
+            background-size: 200% 200%;
+            animation: gradientShift 0.5s ease infinite;
+            box-shadow: 0 0 60px rgba(255, 107, 107, 0.8), 0 0 100px rgba(79, 172, 254, 0.6);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
         @keyframes buttonShake {
             0%, 100% { transform: rotate(0deg) scale(0.95); }
             25% { transform: rotate(-5deg) scale(0.95); }
@@ -99,6 +123,82 @@
             font-size: 4rem;
             display: block;
             margin-bottom: 10px;
+        }
+
+        /* 倒计时条 */
+        .timer-container {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .timer-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .timer-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00f5a0, #00d9f5);
+            border-radius: 10px;
+            transition: width 0.1s linear;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 1s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .timer-progress.warning {
+            background: linear-gradient(90deg, #feca57, #ff9f43);
+        }
+
+        .timer-progress.danger {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a24);
+            animation: pulse 0.5s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .timer-display {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 8px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         /* 粒子效果 */
@@ -112,11 +212,38 @@
         @keyframes particleFly {
             0% {
                 opacity: 1;
-                transform: translate(0, 0) scale(1);
+                transform: translate(0, 0) scale(1) rotate(0deg);
             }
             100% {
                 opacity: 0;
-                transform: translate(var(--tx), var(--ty)) scale(0);
+                transform: translate(var(--tx), var(--ty)) scale(0) rotate(var(--rot));
+            }
+        }
+
+        /* 大型粒子 */
+        .particle-large {
+            font-size: 3rem;
+            z-index: 100;
+        }
+
+        /* 爆炸粒子 */
+        .particle-explosion {
+            font-size: 4rem;
+            animation: explosionFly 1.5s ease-out forwards;
+        }
+
+        @keyframes explosionFly {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(180deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) scale(0) rotate(360deg);
             }
         }
 
@@ -137,6 +264,24 @@
             }
         }
 
+        /* 大型波纹 */
+        .ripple-large {
+            background: rgba(255, 255, 255, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            animation: rippleLargeEffect 1s ease-out;
+        }
+
+        @keyframes rippleLargeEffect {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(8);
+                opacity: 0;
+            }
+        }
+
         /* 连击显示 */
         .combo {
             position: fixed;
@@ -152,6 +297,7 @@
             opacity: 0;
             transform: translateY(-20px);
             transition: all 0.3s ease;
+            z-index: 1000;
         }
 
         .combo.show {
@@ -168,27 +314,64 @@
             50% { transform: scale(1.2); }
         }
 
+        .combo.mega-combo {
+            background: linear-gradient(45deg, #f093fb, #f5576c, #4facfe);
+            background-size: 200% 200%;
+            animation: gradientShift 0.5s ease infinite, comboGlow 0.3s ease;
+            font-size: 2rem;
+            padding: 20px 35px;
+            box-shadow: 0 0 30px rgba(240, 147, 251, 0.6), 0 0 60px rgba(79, 172, 254, 0.4);
+        }
+
+        @keyframes comboGlow {
+            0%, 100% { box-shadow: 0 0 30px rgba(240, 147, 251, 0.6); }
+            50% { box-shadow: 0 0 50px rgba(240, 147, 251, 0.9), 0 0 80px rgba(79, 172, 254, 0.6); }
+        }
+
+        /* 屏幕震动 */
+        .screen-shake {
+            animation: screenShake 0.5s ease;
+        }
+
+        @keyframes screenShake {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-10px, -10px); }
+            20% { transform: translate(10px, 10px); }
+            30% { transform: translate(-10px, 10px); }
+            40% { transform: translate(10px, -10px); }
+            50% { transform: translate(-10px, -10px); }
+            60% { transform: translate(10px, 10px); }
+            70% { transform: translate(-10px, 10px); }
+            80% { transform: translate(10px, -10px); }
+            90% { transform: translate(-10px, -10px); }
+        }
+
+        /* 闪光效果 */
+        .flash-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 9999;
+        }
+
+        .flash-overlay.flash {
+            animation: flashEffect 0.5s ease-out;
+        }
+
+        @keyframes flashEffect {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
         /* 加载状态 */
         .loading {
             opacity: 0.5;
             pointer-events: none;
-        }
-
-        .reset-btn {
-            margin-top: 30px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            color: #fff;
-            padding: 10px 30px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .reset-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            border-color: #fff;
         }
     </style>
 </head>
@@ -204,26 +387,39 @@
             点击我！
         </button>
         
-        <br>
-        
-        <button class="reset-btn" id="resetBtn">重置计数</button>
+        <div class="timer-container">
+            <div class="timer-label">⏱️ 重置倒计时</div>
+            <div class="timer-bar">
+                <div class="timer-progress" id="timerProgress"></div>
+            </div>
+            <div class="timer-display" id="timerDisplay">5.0s</div>
+        </div>
     </div>
 
     <div class="combo" id="combo">🔥 Combo x1</div>
+    <div class="flash-overlay" id="flashOverlay"></div>
 
     <script>
-        // 环境变量注入：Render 构建时会自动替换 __API_BASE_URL__
-        const API_BASE = window.ENV_API_BASE || '__API_BASE_URL__';
+        // 环境变量注入：Render 构建时会自动替换
+        const API_BASE = 'http://localhost:10000/api';
         
         let count = 0;
         let combo = 0;
         let comboTimer = null;
         let isClicking = false;
+        
+        // 倒计时相关
+        const RESET_TIME = 5000; // 5 秒
+        let timeRemaining = RESET_TIME;
+        let lastUpdateTime = Date.now();
+        let timerRunning = true;
 
         const countDisplay = document.getElementById('countDisplay');
         const clawButton = document.getElementById('clawButton');
         const comboDisplay = document.getElementById('combo');
-        const resetBtn = document.getElementById('resetBtn');
+        const timerProgress = document.getElementById('timerProgress');
+        const timerDisplay = document.getElementById('timerDisplay');
+        const flashOverlay = document.getElementById('flashOverlay');
 
         // 获取当前计数
         async function fetchCount() {
@@ -254,8 +450,20 @@
                 const data = await response.json();
                 count = data.count;
                 updateDisplay(true);
+                
+                // 根据连击数创建不同强度的特效
                 createParticles();
                 updateCombo();
+                
+                // 检查是否达到特殊连击阈值
+                if (combo % 50 === 0 && combo > 0) {
+                    createExplosionEffect();
+                    triggerScreenShake();
+                    triggerFlash();
+                } else if (combo % 10 === 0 && combo > 0) {
+                    createLargeParticles();
+                    createLargeRipple();
+                }
             } catch (error) {
                 console.error('Failed to increment:', error);
                 // 本地计数作为后备
@@ -270,19 +478,22 @@
             }, 100);
         }
 
-        // 重置计数
+        // 重置计数（倒计时结束自动调用）
         async function resetCount() {
             try {
                 await fetch(`${API_BASE}/reset`, {
                     method: 'POST',
                 });
-                count = 0;
-                combo = 0;
-                updateDisplay(false);
-                hideCombo();
             } catch (error) {
                 console.error('Failed to reset:', error);
             }
+            count = 0;
+            combo = 0;
+            timeRemaining = RESET_TIME;
+            updateDisplay(false);
+            hideCombo();
+            updateTimerDisplay();
+            clawButton.classList.remove('mega-mode');
         }
 
         // 更新显示
@@ -301,9 +512,20 @@
         function updateCombo() {
             combo++;
             
+            // 检查是否达到 50 连击
+            const isMegaCombo = combo >= 50 || combo % 50 === 0;
+            
             if (combo > 1) {
                 comboDisplay.textContent = `🔥 Combo x${combo}`;
                 comboDisplay.classList.add('show', 'pop');
+                
+                // 50 连击以上启用 mega 模式
+                if (isMegaCombo) {
+                    comboDisplay.classList.add('mega-combo');
+                    clawButton.classList.add('mega-mode');
+                } else if (combo >= 10) {
+                    comboDisplay.classList.remove('mega-combo');
+                }
                 
                 setTimeout(() => {
                     comboDisplay.classList.remove('pop');
@@ -322,12 +544,50 @@
             comboTimer = setTimeout(() => {
                 hideCombo();
                 combo = 0;
+                clawButton.classList.remove('mega-mode');
             }, 2000);
         }
 
         // 隐藏连击
         function hideCombo() {
-            comboDisplay.classList.remove('show');
+            comboDisplay.classList.remove('show', 'mega-combo');
+        }
+
+        // 更新倒计时
+        function updateTimer() {
+            const now = Date.now();
+            const delta = now - lastUpdateTime;
+            lastUpdateTime = now;
+            
+            if (timerRunning && timeRemaining > 0) {
+                timeRemaining -= delta;
+                
+                if (timeRemaining <= 0) {
+                    timeRemaining = 0;
+                    resetCount();
+                }
+                
+                updateTimerDisplay();
+            }
+            
+            requestAnimationFrame(updateTimer);
+        }
+
+        // 更新倒计时显示
+        function updateTimerDisplay() {
+            const seconds = timeRemaining / 1000;
+            timerDisplay.textContent = `${seconds.toFixed(1)}s`;
+            
+            const progress = (timeRemaining / RESET_TIME) * 100;
+            timerProgress.style.width = `${progress}%`;
+            
+            // 根据剩余时间改变颜色
+            timerProgress.classList.remove('warning', 'danger');
+            if (seconds <= 1) {
+                timerProgress.classList.add('danger');
+            } else if (seconds <= 2) {
+                timerProgress.classList.add('warning');
+            }
         }
 
         // 创建粒子效果
@@ -337,13 +597,82 @@
             const centerX = buttonRect.left + buttonRect.width / 2;
             const centerY = buttonRect.top + buttonRect.height / 2;
 
-            for (let i = 0; i < 12; i++) {
+            // 根据连击数增加粒子数量
+            let particleCount = 12;
+            if (combo >= 50) particleCount = 50;
+            else if (combo >= 10) particleCount = 24;
+
+            for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
                 
-                const angle = (i / 12) * Math.PI * 2;
+                const angle = (i / particleCount) * Math.PI * 2;
                 const distance = 150 + Math.random() * 100;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const rot = (Math.random() - 0.5) * 720;
+                
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--rot', `${rot}deg`);
+                
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+
+        // 创建大型粒子（10 连击）
+        function createLargeParticles() {
+            const emojis = ['🎆', '🎇', '💥', '🌈', '⚡'];
+            const buttonRect = clawButton.getBoundingClientRect();
+            const centerX = buttonRect.left + buttonRect.width / 2;
+            const centerY = buttonRect.top + buttonRect.height / 2;
+
+            for (let i = 0; i < 8; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle particle-large';
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                const angle = (i / 8) * Math.PI * 2;
+                const distance = 200 + Math.random() * 150;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                const rot = (Math.random() - 0.5) * 720;
+                
+                particle.style.left = `${centerX}px`;
+                particle.style.top = `${centerY}px`;
+                particle.style.setProperty('--tx', `${tx}px`);
+                particle.style.setProperty('--ty', `${ty}px`);
+                particle.style.setProperty('--rot', `${rot}deg`);
+                
+                document.body.appendChild(particle);
+
+                setTimeout(() => {
+                    particle.remove();
+                }, 1500);
+            }
+        }
+
+        // 创建爆炸粒子（50 连击）
+        function createExplosionEffect() {
+            const emojis = ['🎆', '🎇', '💥', '🌟', '✨', '🧞', '⚡', '🌈'];
+            const buttonRect = clawButton.getBoundingClientRect();
+            const centerX = buttonRect.left + buttonRect.width / 2;
+            const centerY = buttonRect.top + buttonRect.height / 2;
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle particle-explosion';
+                particle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                
+                const angle = (i / 30) * Math.PI * 2;
+                const distance = 300 + Math.random() * 200;
                 const tx = Math.cos(angle) * distance;
                 const ty = Math.sin(angle) * distance;
                 
@@ -356,7 +685,29 @@
 
                 setTimeout(() => {
                     particle.remove();
-                }, 1000);
+                }, 2000);
+            }
+        }
+
+        // 创建大型波纹（10 连击）
+        function createLargeRipple() {
+            for (let i = 0; i < 3; i++) {
+                setTimeout(() => {
+                    const ripple = document.createElement('div');
+                    ripple.className = 'ripple ripple-large';
+                    ripple.style.width = '150px';
+                    ripple.style.height = '150px';
+                    ripple.style.left = '50%';
+                    ripple.style.top = '50%';
+                    ripple.style.marginLeft = '-75px';
+                    ripple.style.marginTop = '-75px';
+                    
+                    document.body.appendChild(ripple);
+
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 1000);
+                }, i * 150);
             }
         }
 
@@ -374,6 +725,22 @@
             setTimeout(() => {
                 ripple.remove();
             }, 600);
+        }
+
+        // 触发屏幕震动（50 连击）
+        function triggerScreenShake() {
+            document.body.classList.add('screen-shake');
+            setTimeout(() => {
+                document.body.classList.remove('screen-shake');
+            }, 500);
+        }
+
+        // 触发闪光效果（50 连击）
+        function triggerFlash() {
+            flashOverlay.classList.add('flash');
+            setTimeout(() => {
+                flashOverlay.classList.remove('flash');
+            }, 500);
         }
 
         // 事件监听
@@ -395,10 +762,10 @@
             }
         });
 
-        resetBtn.addEventListener('click', resetCount);
-
         // 初始化
         fetchCount();
+        lastUpdateTime = Date.now();
+        updateTimer();
     </script>
 </body>
 </html>
