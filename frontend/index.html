@@ -30,8 +30,8 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
+            z-index: 999;
+            overflow: visible;
         }
 
         /* 背景闪电 - 超超超明显 */
@@ -905,7 +905,6 @@
                 const centerY = buttonRect.top + buttonRect.height / 2;
                 
                 // 先更新 combo，再判断特效
-                const prevCombo = combo;
                 combo++;
                 updateComboDisplay();
                 
@@ -913,26 +912,33 @@
                 createParticles(centerX, centerY);
                 createClickGlow(centerX, centerY);
                 
-                // 10+ 连击：增强特效
+                // 每 10 连击：背景颜色轮换
                 if (combo >= 10 && combo % 10 === 0) {
+                    const bgHue = (Math.floor(combo / 10) * 36) % 360;
+                    document.body.style.background = `linear-gradient(135deg, hsl(${bgHue}, 60%, 50%), hsl(${(bgHue + 40) % 360}, 60%, 50%))`;
+                }
+                
+                // 10+ 连击：增强特效
+                if (combo >= 10) {
                     createLargeParticles(centerX, centerY);
                     createRipple(centerX, centerY, false);
                     createSparks(centerX, centerY);
                     createMultiRipples(centerX, centerY);
                 }
                 
-                // 50+ 连击：爆炸特效
-                if (combo >= 50 && combo % 50 === 0) {
+                // 50+ 连击：爆炸特效（每次点击都触发）
+                if (combo >= 50) {
                     createExplosionEffect(centerX, centerY);
                     triggerScreenShake();
                     triggerFlash();
                     createBackgroundOrbs();
                     createGridPulse();
                     triggerBgFlash('cyan');
+                    createLightningStorm(centerX, centerY);
                 }
                 
-                // 100+ 连击：终极闪电风暴
-                if (combo >= 100 && combo % 100 === 0) {
+                // 100+ 连击：终极闪电风暴（每次点击都触发）
+                if (combo >= 100) {
                     createUltraLightningStorm(centerX, centerY);
                     triggerMegaExplosion(centerX, centerY);
                     triggerBgFlash('white');
@@ -962,6 +968,8 @@
             timeRemaining = RESET_TIME;
             timerRunning = false;
             hasStarted = false;
+            // 恢复背景色
+            document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
             updateDisplay(false);
             hideCombo(); // hideCombo 已经重置 combo 和 mega-mode
             updateTimerDisplay();
@@ -1401,6 +1409,35 @@
         function triggerFlash() {
             flashOverlay.classList.add('flash');
             setTimeout(() => flashOverlay.classList.remove('flash'), 800);
+        }
+
+        // 闪电风暴（50 连击版）
+        function createLightningStorm(x, y) {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            // 主闪电 - 10 道
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const lightning = document.createElement('div');
+                    lightning.className = 'lightning-bolt strike';
+                    lightning.style.left = `${Math.random() * width}px`;
+                    lightning.style.top = '0';
+                    const boltHeight = 300 + Math.random() * 400;
+                    lightning.style.height = `${boltHeight}px`;
+                    lightning.style.setProperty('--height', `${boltHeight}px`);
+                    
+                    bgEffects.appendChild(lightning);
+                    setTimeout(() => lightning.remove(), 500);
+                }, i * 80);
+            }
+            
+            // 闪电粒子 - 50 个
+            createLightningParticles(x, y, 50);
+            
+            // 背景颜色脉冲
+            document.body.classList.add('bg-pulse');
+            setTimeout(() => document.body.classList.remove('bg-pulse'), 800);
         }
 
         // 事件监听
